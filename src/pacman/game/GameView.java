@@ -105,7 +105,7 @@ public class GameView extends JComponent
     /**
      * Draw the debug info and the clear it - it is shown for a single time step only.
      */
-    private void drawDebugInfo()
+    protected void drawDebugInfo()
     {
     	for(int i=0;i<debugPointers.size();i++)
     	{
@@ -139,7 +139,7 @@ public class GameView extends JComponent
     /*
      * Saves the actual image.
      */
-	private void saveImage()
+    protected void saveImage()
 	{
 		try 
 		{
@@ -191,7 +191,7 @@ public class GameView extends JComponent
     /**
      * Draw maze.
      */
-    private void drawMaze()
+    protected void drawMaze()
     {
     	bufferGraphics.setColor(Color.BLACK);
     	bufferGraphics.fillRect(0,0,GV_WIDTH*MAG,GV_HEIGHT*MAG+20);
@@ -202,7 +202,7 @@ public class GameView extends JComponent
     /**
      * Draw pills.
      */
-    private void drawPills()
+    protected void drawPills()
     {
         int[] pillIndices=game.getPillIndices();
         
@@ -216,7 +216,7 @@ public class GameView extends JComponent
     /**
      * Draw power pills.
      */
-    private void drawPowerPills()
+    protected void drawPowerPills()
     {
         int[] powerPillIndices=game.getPowerPillIndices();
           
@@ -230,7 +230,7 @@ public class GameView extends JComponent
     /**
      * Draw pac man.
      */
-    private void drawPacMan()
+    protected void drawPacMan()
     {
     	int pacLoc=game.getPacmanCurrentNodeIndex();
     	
@@ -245,7 +245,7 @@ public class GameView extends JComponent
     /**
      * Draw ghosts.
      */
-    private void drawGhosts() 
+    protected void drawGhosts() 
     {
     	for(GHOST ghostType : GHOST.values())
     	{
@@ -276,7 +276,7 @@ public class GameView extends JComponent
     /**
      * Draw lives.
      */
-    private void drawLives()
+    protected void drawLives()
     {
     	for(int i=0;i<game.getPacmanNumberOfLivesRemaining()-1;i++) //-1 as lives remaining includes the current life
     		bufferGraphics.drawImage(images.getPacManForExtraLives(),210-(30*i)/2,260,null);
@@ -285,7 +285,7 @@ public class GameView extends JComponent
     /**
      * Draw game info.
      */
-    private void drawGameInfo()
+    protected void drawGameInfo()
     {
     	bufferGraphics.setColor(Color.WHITE);
     	bufferGraphics.drawString("S: ",4,271);
@@ -299,7 +299,7 @@ public class GameView extends JComponent
     /**
      * Draw game over.
      */
-    private void drawGameOver()
+    protected void drawGameOver()
     {
     	bufferGraphics.setColor(Color.WHITE);
     	bufferGraphics.drawString("Game Over",80,150);
@@ -485,7 +485,7 @@ public class GameView extends JComponent
     		return mazes[mazeIndex];
     	}
     	
-        private BufferedImage _loadImage(String fileName) 
+	    protected BufferedImage _loadImage(String fileName) 
         {
             BufferedImage image=null;
             

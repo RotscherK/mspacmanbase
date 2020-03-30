@@ -25,6 +25,7 @@ import pacman.controllers.examples.StarterPacMan;
 import pacman.entries.ghosts.fair.FairGhosts;
 import pacman.game.Game;
 import pacman.game.GameView;
+import pacman.game.GameViewExt;
 
 import static pacman.game.Constants.*;
 
@@ -49,7 +50,7 @@ public class Executor
 		/*
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10;
-		exec.runExperiment(new RandomPacMan(),new RandomGhosts(),numTrials);
+		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
 		 */
 		
 		/*
@@ -64,7 +65,11 @@ public class Executor
 		boolean visual=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 //		exec.runGameTimed(new StarterPacMan(),new StarterGhosts(),visual);
+		boolean fixedTime=false;
+
 		exec.runGameTimed(new StarterPacMan(),new FairGhosts(),visual);
+//		exec.runGameTimed(new HumanController(new KeyBoardInput()),new FairGhosts(),visual);	
+		
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
 		//*/
 		
@@ -80,9 +85,9 @@ public class Executor
 		//run game in asynchronous mode and record it to file for replay at a later stage.
 		boolean visual=true;
 		String fileName="replay.txt";
-		exec.runGameTimedRecorded(new HumanController(new KeyBoardInput()),new RandomGhosts(),visual,fileName);
+		exec.runGameTimedRecorded(new StarterPacMan(),new FairGhosts(),visual,fileName);
 		//exec.replayGame(fileName,visual);
-		 */
+		*/
 	}
 	
     /**
@@ -136,7 +141,8 @@ public class Executor
 		GameView gv=null;
 		
 		if(visual)
-			gv=new GameView(game).showGame();
+			gv = new GameViewExt(game, 2).showGame();
+			//gv=new GameView(game).showGame();
 		
 		while(!game.gameOver())
 		{
@@ -164,7 +170,8 @@ public class Executor
 		GameView gv=null;
 		
 		if(visual)
-			gv=new GameView(game).showGame();
+			gv = new GameViewExt(game, 2).showGame();
+			//gv=new GameView(game).showGame();
 		
 		if(pacManController instanceof HumanController)
 			gv.getFrame().addKeyListener(((HumanController)pacManController).getKeyboardInput());

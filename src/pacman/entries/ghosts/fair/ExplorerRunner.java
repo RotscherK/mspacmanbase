@@ -9,6 +9,9 @@ import java.util.Set;
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import pacman.entries.ghosts.fair.ants.ExplorerAnt;
 import pacman.entries.ghosts.fair.calcutil.Calculations;
 import pacman.entries.ghosts.fair.calcutil.Parameters;
@@ -28,6 +31,8 @@ import pacman.game.Game;
  */
 public class ExplorerRunner {
 	
+	private static final Logger LOG = Logger.getLogger(ExplorerRunner.class.getName());
+
     //private static final Logger LOG = LogManager.getLogger(ExplorerRunner.class);
 		
 	private AntMaze maze;
@@ -45,7 +50,7 @@ public class ExplorerRunner {
 	 * @return the AntMaze after the run of all ExplorerAnts
 	 */
 	public AntMaze runExplorerAnts() {
-		//LOG.debug("PACMAN is now on {}", game.getPacmanCurrentNodeIndex());
+		LOG.fine("PACMAN is now on "+ game.getPacmanCurrentNodeIndex());
 		List<ExplorerAnt> allExplorerAnts = new ArrayList<ExplorerAnt>();
 		
 		while (allExplorerAnts.size() < Parameters.MAX_EXPLORER) {

@@ -10,4 +10,5 @@ module mspacmanbase {
 	exports pacman.entries.pacman;
 
 	requires java.desktop;
+	requires java.logging;
 }
