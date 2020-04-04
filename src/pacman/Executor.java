@@ -39,6 +39,7 @@ import static pacman.game.Constants.*;
 public class Executor
 {	
 	/**
+	 * 
 	 * The main method. Several options are listed - simply remove comments to use the option you want.
 	 *
 	 * @param args the command line arguments
@@ -47,11 +48,11 @@ public class Executor
 	{
 		Executor exec=new Executor();
 
-		/*
+		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10;
 		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
-		 */
+		 
 		
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
@@ -60,7 +61,7 @@ public class Executor
 		exec.runGame(new RandomPacMan(),new RandomGhosts(),visual,delay);
   		 */
 		
-		///*
+		/*
 		//run the game in asynchronous mode.
 		boolean visual=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
@@ -71,14 +72,14 @@ public class Executor
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new FairGhosts(),visual);	
 		
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
-		//*/
+		*/
 		
 		/*
 		//run the game in asynchronous mode but advance as soon as both controllers are ready  - this is the mode of the competition.
 		//time limit of DELAY ms still applies.
 		boolean visual=true;
 		boolean fixedTime=false;
-		exec.runGameTimedSpeedOptimised(new RandomPacMan(),new RandomGhosts(),fixedTime,visual);
+		exec.runGameTimedSpeedOptimised(new StarterPacMan(),new FairGhosts(),fixedTime,visual);
 		*/
 		
 		/*
