@@ -21,6 +21,7 @@ import pacman.entries.ghosts.fair.environment.PheromoneType;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
+import pacman.game.util.Log;
 
 /**
  * The HunterRunner uses a Game and an AntMaze to establish the best next MOVE for a GHOST.
@@ -31,6 +32,7 @@ import pacman.game.Game;
 public class HunterRunner {
 
     //private static final Logger LOG = LogManager.getLogger(HunterRunner.class);
+	private static final Log LOG = Log.getLog();
 
 	private AntMaze maze;
 
@@ -50,15 +52,20 @@ public class HunterRunner {
 		//LOG.debug("{} is now on {}", ghost.name(), game.getGhostCurrentNodeIndex(ghost));
 		List<HunterAnt> allHunterAnts = new ArrayList<HunterAnt>();
 
+		int sizeAnts = 0;
+		
 		// run all hunter ants
 		while (allHunterAnts.size() < Parameters.MAX_HUNTER) {
 			List<HunterAnt> hunterAnts = initializeHunterAnts(ghost);
 			allHunterAnts.addAll(hunterAnts);
 			
+			sizeAnts += hunterAnts.size();
+			
 			runHunterAnts(hunterAnts);
 			HunterAnt bestAntOfIteration = evaluateHunterSolutionQuality(hunterAnts);
 			doHunterPheromoneUpdate(bestAntOfIteration);
 		}
+		LOG.log(HunterRunner.class, String.format("Size AllHunterantsPackages %s, All Hunter Ants %s", allHunterAnts.size(),sizeAnts));
 
 		// find and handle the bestHunterAnt
 		HunterAnt bestHunterAnt = getBestHunterAnt(allHunterAnts);
@@ -68,12 +75,15 @@ public class HunterRunner {
 		
 		// debug information
 		VisualUtil.drawAnt(game, bestHunterAnt);
-		/*LOG.trace("HunterAnt {} is the best ant for {} with quality {}", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality());
+		LOG.log(HunterRunner.class, String.format("HunterAnt %s is the best ant for %s with quality %s", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality()));
+		//LOG.trace("HunterAnt {} is the best ant for {} with quality {}", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality());
 		if (game.doesGhostRequireAction(ghost)) {
-			LOG.debug("{} choses to go {}", ghost.name(), moveToMake);
+			LOG.log(HunterRunner.class, String.format("%s choses to go %s", ghost.name(), moveToMake));
+			//LOG.debug("{} choses to go {}", ghost.name(), moveToMake);
 		} else {
-			LOG.trace("{} keeps going {}", ghost.name(), moveToMake);
-		}*/
+			LOG.log(HunterRunner.class, String.format("%s keeps going %s", ghost.name(), moveToMake));
+			//LOG.trace("{} keeps going {}", ghost.name(), moveToMake);
+		}
 		
 		return moveToMake;
 	}
@@ -172,6 +182,7 @@ public class HunterRunner {
 			MOVE moveToMake = game.getMoveToMakeToReachDirectNeighbour(game.getGhostCurrentNodeIndex(ghost), nodesToStartHunterAnts[i]);
 			HunterAnt h = new HunterAnt(maze.getAntNode(nodesToStartHunterAnts[i]), moveToMake, ghost);
 			hunterAnts.add(h);
+			LOG.log(HunterRunner.class, String.format("HunterAnt %s created on node %s %s from %s", h.getAntId(), h.getCurrentNode().getNodeIndex(), moveToMake, ghost.name()));
 			//LOG.trace("HunterAnt {} created on node {} {} from {}", h.getAntId(), h.getCurrentNode().getNodeIndex(), moveToMake, ghost.name());
 		}
 
@@ -216,6 +227,7 @@ public class HunterRunner {
 		AntNode nextNode = null;
 		if (choosableNodes.size() > 1) {
 			
+			//TODO: ausgeklammert?
 //			if (Math.random() < Parameters.EXPLORATION_RATE_HUNTER) {
 				/* CHOSE NODE ACCORDING TO PROBABILITY BASED ON DESIRABILITY */
 				moveType = AntMoveType.CHOSEN_PROBABILITY;
@@ -235,6 +247,7 @@ public class HunterRunner {
 		h.moveToNode(moveMadeAnt, nextNode, moveType, possibilities);
 		
 		if (choosableNodes.size() > 1) {
+			LOG.log(HunterRunner.class, String.format("HunterAnt %s goes %s based on %s. Possibilities: %s", h.getAntId(), moveMadeAnt, moveType, possibilities));
 			//LOG.trace("HunterAnt {} goes {} based on {}. Possibilities: {}", h.getAntId(), moveMadeAnt, moveType, possibilities);
 		}		
 	}

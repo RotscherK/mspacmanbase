@@ -23,7 +23,7 @@ import java.io.PrintWriter;
  */
 public class IO
 {
-	public static final String DIRECTORY="myData/";
+	public static final String DIRECTORY="";
 	
 	/**
 	 * Used to save data, represented as a string, in a file called with name specified.

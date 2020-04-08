@@ -26,6 +26,7 @@ import pacman.entries.ghosts.fair.FairGhosts;
 import pacman.game.Game;
 import pacman.game.GameView;
 import pacman.game.GameViewExt;
+import pacman.game.util.Log;
 
 import static pacman.game.Constants.*;
 
@@ -50,9 +51,10 @@ public class Executor
 
 		
 		//run multiple games in batch mode - good for testing.
-		int numTrials=10;
+		Log l =  Log.getLog();
+		int numTrials=1;
 		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
-		 
+		l.saveLog(false);
 		
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.

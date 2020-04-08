@@ -15,7 +15,7 @@ public class Log
 		
 		fileName="log.txt";
 		timeStamp=false;
-		console=false;
+		console=true;
 	}
 	
 	public static Log getLog()
