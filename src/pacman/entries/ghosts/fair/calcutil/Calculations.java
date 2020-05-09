@@ -124,6 +124,7 @@ public class Calculations {
 			heuristicGhostValue=1;
 		}
 		
+		//the closer the better
 		if(!game.isGhostEdible(ghost)) {
 			heuristicGhostValue = 1 / heuristicGhostValue;
 		}

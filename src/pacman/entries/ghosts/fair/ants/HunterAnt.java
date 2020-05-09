@@ -46,7 +46,6 @@ public class HunterAnt extends Ant {
 			return true;
 		}
 
-		//TODO: fehler false kann zu früh kommen
 		// check if there are still neighboring nodes left to visit
 		int[] possibleAntMoves = game.getNeighbouringNodes(getCurrentNode().getNodeIndex(), getLastMoveMade());
 		for(int i = 0; i < possibleAntMoves.length; i++) {
