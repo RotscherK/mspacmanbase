@@ -47,7 +47,7 @@ public class ExplorerAnt extends Ant {
 	// NEW: power pill - Tim
 	// returns true if a power pill is on the node
 	public boolean isPowerPillOnNode(Game game) {
-		boolean isPowerPillOnNode = true;
+		boolean isPowerPillOnNode = false;
 		for (GHOST ghost : GHOST.values()) {
 			if (game.getGhostLairTime(ghost) <= 0) {
 				// not sure if this works
@@ -59,12 +59,16 @@ public class ExplorerAnt extends Ant {
 						System.out.println(
 								"powerPillIndex: " + powerPillIndexOnNode + ", for node: " + node.getNodeIndex());
 
+						if (powerPillIndexOnNode == -1.0) {
+							return isPowerPillOnNode = false;
+						} else {
+							return isPowerPillOnNode = true;
+						}
 					}
-
 				}
 			}
 		}
-		return false;
+		return isPowerPillOnNode;
 	}
 
 	@Override
