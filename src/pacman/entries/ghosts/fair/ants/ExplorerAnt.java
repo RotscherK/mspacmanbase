@@ -1,5 +1,7 @@
 package pacman.entries.ghosts.fair.ants;
 
+import java.util.stream.IntStream;
+
 //import org.apache.logging.log4j.LogManager;
 //import org.apache.logging.log4j.Logger;
 
@@ -43,10 +45,17 @@ public class ExplorerAnt extends Ant {
 
 		return distanceAntCurrentToNearestGhost;
 	}
+	
+	// NEW: Alternative power pill - Tim
+	// returns true if a power pill is on the node
+	public boolean isPowerPillOnNode(Game game) {
+		System.out.println("powerPillIndex: " + game.getPowerPillIndices().toString() + ", for node: " + this.getCurrentNode().getNodeIndex());
+		return IntStream.of(game.getPowerPillIndices()).anyMatch(x -> x == this.getCurrentNode().getNodeIndex());
+	}
 
 	// NEW: power pill - Tim
 	// returns true if a power pill is on the node
-	public boolean isPowerPillOnNode(Game game) {
+	public boolean isPowerPillOnNodeV1(Game game) {
 		boolean isPowerPillOnNode = false;
 		for (GHOST ghost : GHOST.values()) {
 			if (game.getGhostLairTime(ghost) <= 0) {
@@ -70,7 +79,7 @@ public class ExplorerAnt extends Ant {
 		}
 		return isPowerPillOnNode;
 	}
-
+	
 	@Override
 	public boolean isStoppingConditionReached(Game game) {
 
@@ -96,9 +105,11 @@ public class ExplorerAnt extends Ant {
 			// According to Recio, an ant will stop if a ghost can reach the node before the
 			// ant
 			// UNLESS there is a power pill on the way
-			isPowerPillOnNode = isPowerPillOnNode(game);
-			if (isPowerPillOnNode) {
-				return false;
+			if(Parameters.POWERPILLS_EXPLORER) {
+				isPowerPillOnNode = isPowerPillOnNode(game);
+				if (isPowerPillOnNode) {
+					return false;
+				}
 			}
 			return true;
 		}

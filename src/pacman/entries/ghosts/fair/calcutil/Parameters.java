@@ -37,6 +37,9 @@ public class Parameters {
 	
 	/* EXPLORER ANTS */
 	
+	/** Consider Powerpills on Path Tim & Roger **/
+	public static boolean POWERPILLS_EXPLORER = false;
+	
 	/**  Maximum Number of ExplorerAnts created (maxAnt ^e) */
 	public static int MAX_EXPLORER = 25;
 	

@@ -12,6 +12,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sun.org.apache.bcel.internal.generic.LNEG;
+
 import pacman.entries.ghosts.fair.ants.ExplorerAnt;
 import pacman.entries.ghosts.fair.calcutil.Calculations;
 import pacman.entries.ghosts.fair.calcutil.Parameters;
@@ -20,6 +22,7 @@ import pacman.entries.ghosts.fair.environment.AntMaze;
 import pacman.entries.ghosts.fair.environment.AntNode;
 import pacman.entries.ghosts.fair.environment.PheromoneType;
 import pacman.game.Constants.MOVE;
+import pacman.game.util.Log;
 import pacman.game.Game;
 
 
@@ -31,7 +34,7 @@ import pacman.game.Game;
  */
 public class ExplorerRunner {
 	
-	private static final Logger LOG = Logger.getLogger(ExplorerRunner.class.getName());
+	private static final Log LOG = Log.getLog();
 
     //private static final Logger LOG = LogManager.getLogger(ExplorerRunner.class);
 		
@@ -50,7 +53,7 @@ public class ExplorerRunner {
 	 * @return the AntMaze after the run of all ExplorerAnts
 	 */
 	public AntMaze runExplorerAnts() {
-		LOG.fine("PACMAN is now on "+ game.getPacmanCurrentNodeIndex());
+		LOG.log(this, "PACMAN is now on "+ game.getPacmanCurrentNodeIndex());
 		List<ExplorerAnt> allExplorerAnts = new ArrayList<ExplorerAnt>();
 		
 		while (allExplorerAnts.size() < Parameters.MAX_EXPLORER) {
@@ -62,7 +65,7 @@ public class ExplorerRunner {
 			doExplorerPheromoneUpdate(explorerAnts, bestAntOfIteration);
 		}
 		
-//		VisualUtil.drawPheromones(game, maze, PheromoneType.EXPLORER);	
+		VisualUtil.drawPheromones(game, maze, PheromoneType.EXPLORER);	
 		
 		return maze;
 	}
@@ -202,7 +205,10 @@ public class ExplorerRunner {
 				bestAntOfIteration = e;
 			}
 		}
-		//LOG.trace("ExplorerAnt {} has been evaluated as best ant of iteration with quality {}",  bestAntOfIteration.getAntId(), bestAntOfIteration.getQuality());
+		LOG.log(this, String.format("ExplorerAnt %s", bestAntOfIteration.toString()));
+
+		LOG.log(this, String.format("ExplorerAnt %s has been evaluated as best ant of iteration with quality %s", bestAntOfIteration.getAntId(), bestAntOfIteration.getQuality()));
+
 		return bestAntOfIteration;
 	}	
 }

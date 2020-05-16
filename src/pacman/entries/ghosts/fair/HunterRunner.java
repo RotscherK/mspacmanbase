@@ -76,13 +76,10 @@ public class HunterRunner {
 		// debug information
 		VisualUtil.drawAnt(game, bestHunterAnt);
 		LOG.log(HunterRunner.class, String.format("HunterAnt %s is the best ant for %s with quality %s", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality()));
-		//LOG.trace("HunterAnt {} is the best ant for {} with quality {}", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality());
 		if (game.doesGhostRequireAction(ghost)) {
 			LOG.log(HunterRunner.class, String.format("%s choses to go %s", ghost.name(), moveToMake));
-			//LOG.debug("{} choses to go {}", ghost.name(), moveToMake);
 		} else {
 			LOG.log(HunterRunner.class, String.format("%s keeps going %s", ghost.name(), moveToMake));
-			//LOG.trace("{} keeps going {}", ghost.name(), moveToMake);
 		}
 		
 		return moveToMake;

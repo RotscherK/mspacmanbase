@@ -96,7 +96,6 @@ public abstract class Ant {
 		return movements;
 	}
 	
-	
 	public double getQuality() {
 		return quality;
 	}
