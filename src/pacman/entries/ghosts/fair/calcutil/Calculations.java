@@ -12,6 +12,7 @@ import pacman.entries.ghosts.fair.environment.AntNode;
 import pacman.entries.ghosts.fair.environment.PheromoneType;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
+import pacman.game.util.Log;
 import pacman.game.Game;
 
 /**
@@ -20,6 +21,7 @@ import pacman.game.Game;
  * @author Iris Hunkeler
  */
 public class Calculations {
+	private static final Log LOG = Log.getLog();
 
 	
 	/**
@@ -77,12 +79,19 @@ public class Calculations {
 			}
 			
 			// distance to nearest ghost
-			Double distanceAntCurrentToNearestGhost = e.calculateDistanceToNearestGhost(game);	
-			
+			Double distanceAntCurrentToNearestGhost = e.calculateDistanceToNearestGhost(game);				
 			double edgeQuality = distanceAntCurrentToNearestGhost/Math.pow(distanceAntStartToAntCurrent, 2);
 			totalPathQuality += edgeQuality;
-		}
+			
+			//Tim & Roger
+			if(Parameters.POWERPILLS_EXPLORER) {
+				Double distanceAntToNearestPowerpill = e.calculateDistanceAntToNearestPowerpill(game);
+				double powerpillQuality = (1/distanceAntToNearestPowerpill)/Math.pow(distanceAntStartToAntCurrent, 2);
+				//LOG.log(new Calculations(), String.format("Solution Quality ExplorerAnt - edgeQuality: %s, PowerPillQuality: %s" , edgeQuality, powerpillQuality));
 
+				totalPathQuality += powerpillQuality;
+			}
+		}
 		return totalPathQuality;
 	}
 	
@@ -208,6 +217,10 @@ public class Calculations {
 				nextNode = node;
 
 			}
+		}
+		//TODO - Remove
+		if(nextNode == null) {
+			System.out.println("halt");
 		}
 		return nextNode;
 	}

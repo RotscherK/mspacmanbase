@@ -6,13 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import com.sun.org.apache.bcel.internal.generic.LNEG;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import pacman.entries.ghosts.fair.ants.ExplorerAnt;
 import pacman.entries.ghosts.fair.calcutil.Calculations;
@@ -34,10 +29,8 @@ import pacman.game.Game;
  */
 public class ExplorerRunner {
 	
-	private static final Log LOG = Log.getLog();
-
-    //private static final Logger LOG = LogManager.getLogger(ExplorerRunner.class);
-		
+    private static final Logger LOG = LogManager.getLogger(ExplorerRunner.class);	
+	
 	private AntMaze maze;
 
 	private Game game;
@@ -53,7 +46,7 @@ public class ExplorerRunner {
 	 * @return the AntMaze after the run of all ExplorerAnts
 	 */
 	public AntMaze runExplorerAnts() {
-		LOG.log(this, "PACMAN is now on "+ game.getPacmanCurrentNodeIndex());
+		LOG.debug("PACMAN is now on {}", game.getPacmanCurrentNodeIndex());
 		List<ExplorerAnt> allExplorerAnts = new ArrayList<ExplorerAnt>();
 		
 		while (allExplorerAnts.size() < Parameters.MAX_EXPLORER) {
@@ -62,6 +55,7 @@ public class ExplorerRunner {
 			
 			runExplorerAnts(explorerAnts);
 			ExplorerAnt bestAntOfIteration = evaluateExplorerSolutionQuality(explorerAnts);
+			
 			doExplorerPheromoneUpdate(explorerAnts, bestAntOfIteration);
 		}
 		
@@ -81,7 +75,7 @@ public class ExplorerRunner {
 			MOVE moveMade = game.getMoveToMakeToReachDirectNeighbour(game.getPacmanCurrentNodeIndex(), nodesToStartExplorerAnts[i]);
 			ExplorerAnt e = new ExplorerAnt(maze.getAntNode(nodesToStartExplorerAnts[i]), moveMade);
 			explorerAnts.add(e);
-			//LOG.trace("ExplorerAnt {} created on node {} {} from PACMAN", e.getAntId(), e.getCurrentNode().getNodeIndex(), e.getLastMoveMade());
+			LOG.trace("ExplorerAnt {} created on node {} {} from PACMAN", e.getAntId(), e.getCurrentNode().getNodeIndex(), e.getLastMoveMade());
 		}
 		return explorerAnts;
 	}
@@ -116,8 +110,12 @@ public class ExplorerRunner {
 				double oldPheromones = edge.getPheromone(PheromoneType.EXPLORER);
 				double newPheromones = Calculations.getExplorerUpdatedPheromones(oldPheromones,  e.getQuality(), bestAntOfIteration.getQuality());
 				edge.setPheromone(PheromoneType.EXPLORER, newPheromones);
-				
-				//LOG.trace("ExplorerAnt {} changes pheromones on edge {} from {} to {}", e.getAntId(), edge.getStringCode(), oldPheromones, newPheromones);
+								
+				//TODO - Remove
+				if(Double.valueOf(newPheromones).isNaN()) {
+					System.out.println("halt");
+				}
+				LOG.trace("ExplorerAnt {} changes pheromones on edge {} from {} to {}", e.getAntId(), edge.getStringCode(), oldPheromones, newPheromones);
 			}
 		}
 	}
@@ -205,9 +203,8 @@ public class ExplorerRunner {
 				bestAntOfIteration = e;
 			}
 		}
-		LOG.log(this, String.format("ExplorerAnt %s", bestAntOfIteration.toString()));
-
-		LOG.log(this, String.format("ExplorerAnt %s has been evaluated as best ant of iteration with quality %s", bestAntOfIteration.getAntId(), bestAntOfIteration.getQuality()));
+		
+		LOG.trace("ExplorerAnt {} has been evaluated as best ant of iteration with quality {}",  bestAntOfIteration.getAntId(), bestAntOfIteration.getQuality());
 
 		return bestAntOfIteration;
 	}	

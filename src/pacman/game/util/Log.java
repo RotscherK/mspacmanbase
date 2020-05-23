@@ -55,7 +55,7 @@ public class Log
 	{
 		if(timeStamp)
 		{
-			String string="["+new Date().toString()+"; "+context.getClass().toString()+"]\t"+message;
+			String string="["+new Date().toString()+"; "+context.getClass().getSimpleName()+"]\t"+message;
 			
 			msg.append(string);
 			
@@ -64,7 +64,7 @@ public class Log
 		}
 		else
 		{
-			String string="["+context.getClass().toString()+"]\t"+message;
+			String string="["+context.getClass().getSimpleName()+"]\t"+message;
 			
 			msg.append(string);
 			

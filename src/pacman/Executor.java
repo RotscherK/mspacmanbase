@@ -49,13 +49,12 @@ public class Executor
 	{
 		Executor exec=new Executor();
 
-		/*
+		
 		//run multiple games in batch mode - good for testing.
-		Log l =  Log.getLog();
-		int numTrials=1;
+		int numTrials=10;
 		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
-		l.saveLog(false);
-		*/
+		
+		
 		/*
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
@@ -63,18 +62,18 @@ public class Executor
 		exec.runGame(new RandomPacMan(),new RandomGhosts(),visual,delay);
   		 */
 		
-		
+		/*
 		//run the game in asynchronous mode.
 		boolean visual=true;
 //		exec.runGameTimed(new NearestPillPacMan(),new AggressiveGhosts(),visual);
 //		exec.runGameTimed(new StarterPacMan(),new StarterGhosts(),visual);
 		boolean fixedTime=false;
 
-		exec.runGame(new StarterPacMan(),new FairGhosts(),visual, 200);
+		exec.runGame(new StarterPacMan(),new FairGhosts(),visual, 5);
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new FairGhosts(),visual);	
 		
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	
-		
+		*/
 		
 		/*
 		//run the game in asynchronous mode but advance as soon as both controllers are ready  - this is the mode of the competition.
@@ -119,7 +118,7 @@ public class Executor
 		        game.advanceGame(pacManController.getMove(game.copy(),System.currentTimeMillis()+DELAY),
 		        		ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY));
 			}
-			
+
 			avgScore+=game.getScore();
 			System.out.println(i+"\t"+game.getScore());
 		}

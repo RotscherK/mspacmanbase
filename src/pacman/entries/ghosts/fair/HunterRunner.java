@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-//import org.apache.logging.log4j.LogManager;
-//import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import pacman.entries.ghosts.fair.ants.AntMove.AntMoveType;
 import pacman.entries.ghosts.fair.ants.HunterAnt;
@@ -31,8 +31,7 @@ import pacman.game.util.Log;
  */
 public class HunterRunner {
 
-    //private static final Logger LOG = LogManager.getLogger(HunterRunner.class);
-	private static final Log LOG = Log.getLog();
+    private static final Logger LOG = LogManager.getLogger(HunterRunner.class);
 
 	private AntMaze maze;
 
@@ -65,7 +64,6 @@ public class HunterRunner {
 			HunterAnt bestAntOfIteration = evaluateHunterSolutionQuality(hunterAnts);
 			doHunterPheromoneUpdate(bestAntOfIteration);
 		}
-		LOG.log(HunterRunner.class, String.format("Size AllHunterantsPackages %s, All Hunter Ants %s", allHunterAnts.size(),sizeAnts));
 
 		// find and handle the bestHunterAnt
 		HunterAnt bestHunterAnt = getBestHunterAnt(allHunterAnts);
@@ -75,11 +73,11 @@ public class HunterRunner {
 		
 		// debug information
 		VisualUtil.drawAnt(game, bestHunterAnt);
-		LOG.log(HunterRunner.class, String.format("HunterAnt %s is the best ant for %s with quality %s", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality()));
+		LOG.trace("HunterAnt {} is the best ant for {} with quality {}", bestHunterAnt.getAntId(), ghost.name(), bestHunterAnt.getQuality());
 		if (game.doesGhostRequireAction(ghost)) {
-			LOG.log(HunterRunner.class, String.format("%s choses to go %s", ghost.name(), moveToMake));
+			LOG.debug("{} choses to go {}", ghost.name(), moveToMake);
 		} else {
-			LOG.log(HunterRunner.class, String.format("%s keeps going %s", ghost.name(), moveToMake));
+			LOG.trace("{} keeps going {}", ghost.name(), moveToMake);
 		}
 		
 		return moveToMake;
@@ -129,7 +127,7 @@ public class HunterRunner {
 			double oldPheromonesGhost = edge.getPheromone(PheromoneType.getPheromoneTypeOfGhost(h.getGhost()));
 			double newPheromones = Calculations.getHunterUpdatedPheromones(oldPheromonesGhost,  h.getQuality());
 
-			//LOG.trace("HunterAnt {} changes pheromones on edge {} from {} [{}]" + " to {}", h.getAntId(), edge.getStringCode(), oldPheromonesGhost, oldPheromonesExplorer, newPheromones);
+			LOG.trace("HunterAnt {} changes pheromones on edge {} from {} [{}]" + " to {}", h.getAntId(), edge.getStringCode(), oldPheromonesGhost, oldPheromonesExplorer, newPheromones);
 			edge.setPheromone(PheromoneType.getPheromoneTypeOfGhost(h.getGhost()), newPheromones);
 		}		
 	}
@@ -164,7 +162,7 @@ public class HunterRunner {
 				bestAntOfIteration = h;
 			}
 		}
-		//LOG.trace("HunterAnt {} is the best ant of iteration with quality {}", bestAntOfIteration.getAntId(),  bestAntOfIteration.getQuality());
+		LOG.trace("HunterAnt {} is the best ant of iteration with quality {}", bestAntOfIteration.getAntId(),  bestAntOfIteration.getQuality());
 		return bestAntOfIteration;
 	}
 
@@ -179,8 +177,7 @@ public class HunterRunner {
 			MOVE moveToMake = game.getMoveToMakeToReachDirectNeighbour(game.getGhostCurrentNodeIndex(ghost), nodesToStartHunterAnts[i]);
 			HunterAnt h = new HunterAnt(maze.getAntNode(nodesToStartHunterAnts[i]), moveToMake, ghost);
 			hunterAnts.add(h);
-			LOG.log(HunterRunner.class, String.format("HunterAnt %s created on node %s %s from %s", h.getAntId(), h.getCurrentNode().getNodeIndex(), moveToMake, ghost.name()));
-			//LOG.trace("HunterAnt {} created on node {} {} from {}", h.getAntId(), h.getCurrentNode().getNodeIndex(), moveToMake, ghost.name());
+			LOG.trace("HunterAnt {} created on node {} {} from {}", h.getAntId(), h.getCurrentNode().getNodeIndex(), moveToMake, ghost.name());
 		}
 
 		return hunterAnts;
@@ -216,6 +213,8 @@ public class HunterRunner {
 			double desirability = totalPheromones * heuristicValue;
 			totalDesirability += desirability;
 			desirabilityOfNodes.put(choosableNode, desirability);
+			LOG.trace("HunterAnt - pheromonesExplorer {} , pheromonesGhost {}, totalPheromones {}", pheromonesExplorer, pheromonesGhost, totalPheromones);
+			LOG.trace("HunterAnt - heuristicValue {} , desirability {}, totalDesirability {}", heuristicValue, desirability, totalDesirability);
 
 			possibilities.put(game.getMoveToMakeToReachDirectNeighbour(h.getCurrentNode().getNodeIndex(), choosableNode.getNodeIndex()), desirability);
 		}
@@ -244,8 +243,7 @@ public class HunterRunner {
 		h.moveToNode(moveMadeAnt, nextNode, moveType, possibilities);
 		
 		if (choosableNodes.size() > 1) {
-			LOG.log(HunterRunner.class, String.format("HunterAnt %s goes %s based on %s. Possibilities: %s", h.getAntId(), moveMadeAnt, moveType, possibilities));
-			//LOG.trace("HunterAnt {} goes {} based on {}. Possibilities: {}", h.getAntId(), moveMadeAnt, moveType, possibilities);
+			LOG.trace("HunterAnt {} goes {} based on {}. Possibilities: {}", h.getAntId(), moveMadeAnt, moveType, possibilities);
 		}		
 	}
 }
