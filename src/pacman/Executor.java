@@ -52,7 +52,7 @@ public class Executor
 		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10;
-		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
+		exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
 		
 		
 		/*
@@ -69,7 +69,7 @@ public class Executor
 //		exec.runGameTimed(new StarterPacMan(),new StarterGhosts(),visual);
 		boolean fixedTime=false;
 
-		exec.runGame(new StarterPacMan(),new FairGhosts(),visual, 5);
+		exec.runGame(new StarterPacMan(),new FairGhosts(),visual, 100);
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new FairGhosts(),visual);	
 		
 //		exec.runGameTimed(new HumanController(new KeyBoardInput()),new StarterGhosts(),visual);	

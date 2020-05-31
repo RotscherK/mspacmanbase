@@ -133,13 +133,39 @@ public class Calculations {
 			heuristicGhostValue=1;
 		}
 		
+		boolean chaseMode = !game.isGhostEdible(ghost);
+		
+		// Tim & Roger include distance of PacMan to next Powerpill
+		if(Parameters.POWERPILLS_EXPLORER) {
+			//LOG.log(new Calculations(), String.format("PacMan - Distance to PP: %s, Treshhold: %s" , distancePacMantoNextPowerpill(game), Parameters.MIN_DISTANCE_POWERPILL));
+			chaseMode = !game.isGhostEdible(ghost)&&distancePacMantoNextPowerpill(game)>Parameters.MIN_DISTANCE_POWERPILL;
+		}
+
 		//the closer the better
-		if(!game.isGhostEdible(ghost)) {
+		if(chaseMode) {
 			heuristicGhostValue = 1 / heuristicGhostValue;
 		}
 		
 		return heuristicGhostValue;
 	}	
+	
+	//Tim & Roger
+	public static double distancePacMantoNextPowerpill(Game game) {
+		Double distanceNodeCurrentToNearestPowerpill = null;
+		for (int powerpillNodeIndex: game.getPowerPillIndices()) {
+			double distanceToPowerPill = game.getDistance(game.getPacmanCurrentNodeIndex(),
+					powerpillNodeIndex, DM.PATH);
+			if (distanceNodeCurrentToNearestPowerpill == null || distanceNodeCurrentToNearestPowerpill > distanceToPowerPill) {
+				distanceNodeCurrentToNearestPowerpill = distanceToPowerPill;
+			}
+		}
+		if (distanceNodeCurrentToNearestPowerpill == 0) {
+			distanceNodeCurrentToNearestPowerpill = 1d;
+		}
+
+		return distanceNodeCurrentToNearestPowerpill;
+		
+	}
 	
 	/**
 	 * [Function 11]
@@ -217,10 +243,6 @@ public class Calculations {
 				nextNode = node;
 
 			}
-		}
-		//TODO - Remove
-		if(nextNode == null) {
-			System.out.println("halt");
 		}
 		return nextNode;
 	}
