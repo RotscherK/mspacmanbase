@@ -44,7 +44,7 @@ public class Parameters {
 	public static boolean POWERPILL_THRESHOLD = false;
 	
 	/** Distance Threshold to Powerpills Tim & Roger **/
-	public static int DISTANCE_TRESHHOLD_POWERPILL = 20;
+	public static int DISTANCE_TRESHHOLD_POWERPILL = 5;
 	
 	/**  Maximum Number of ExplorerAnts created (maxAnt ^e) */
 	public static int MAX_EXPLORER = 25;

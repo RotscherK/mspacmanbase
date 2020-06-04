@@ -23,6 +23,7 @@ import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
 import pacman.entries.ghosts.fair.FairGhosts;
+import pacman.entries.pacman.Eiisolver;
 import pacman.game.Game;
 import pacman.game.GameView;
 import pacman.game.GameViewExt;
@@ -51,8 +52,10 @@ public class Executor
 
 		
 		//run multiple games in batch mode - good for testing.
-		int numTrials=10;
-		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
+		int numTrials=25;
+		//exec.runExperimentV2(50);
+		exec.runExperiment(new Eiisolver(),new FairGhosts(),numTrials);
+		
 		//exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
 		
 		
@@ -60,7 +63,7 @@ public class Executor
 		//run a game in synchronous mode: game waits until controllers respond.
 		int delay=5;
 		boolean visual=true;
-		exec.runGame(new RandomPacMan(),new RandomGhosts(),visual,delay);
+		exec.runGame(new Eiisolver(),new FairGhosts(),visual,delay);
   		 */
 		
 		/*
@@ -122,6 +125,47 @@ public class Executor
 
 			avgScore+=game.getScore();
 			System.out.println(i+"\t"+game.getScore());
+		}
+		
+		System.out.println(avgScore/trials);
+    }
+    
+    /**
+     * For running multiple games without visuals. This is useful to get a good idea of how well a controller plays
+     * against a chosen opponent: the random nature of the game means that performance can vary from game to game. 
+     * Running many games and looking at the average score (and standard deviation/error) helps to get a better
+     * idea of how well the controller is likely to do in the competition.
+     *
+     * @param pacManController The Pac-Man controller
+     * @param ghostController The Ghosts controller
+     * @param trials The number of trials to be executed
+     */
+    public void runExperimentV2(int trials)
+    {
+    	double avgScore=0;
+    	
+    	Random rnd=new Random(0);
+		Game game;
+		
+		for(int i=0;i<trials;i++)
+		{
+			StarterPacMan pacManController = new StarterPacMan();
+			FairGhosts ghostController = new FairGhosts();
+			
+			game=new Game(rnd.nextLong());
+			
+			while(!game.gameOver())
+			{
+		        game.advanceGame(pacManController.getMove(game.copy(),System.currentTimeMillis()+DELAY),
+		        		ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY));
+			}
+			
+			avgScore+=game.getScore();
+			System.out.println(i+"\t"+game.getScore());
+			
+			pacManController = null;
+			ghostController = null;
+			game = null;
 		}
 		
 		System.out.println(avgScore/trials);
