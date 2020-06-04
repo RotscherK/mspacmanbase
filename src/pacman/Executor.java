@@ -52,7 +52,8 @@ public class Executor
 		
 		//run multiple games in batch mode - good for testing.
 		int numTrials=10;
-		exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
+		exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
+		//exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
 		
 		
 		/*

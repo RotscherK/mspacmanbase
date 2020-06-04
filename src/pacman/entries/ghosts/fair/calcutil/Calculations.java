@@ -136,9 +136,9 @@ public class Calculations {
 		boolean chaseMode = !game.isGhostEdible(ghost);
 		
 		// Tim & Roger include distance of PacMan to next Powerpill
-		if(Parameters.POWERPILLS_EXPLORER) {
-			//LOG.log(new Calculations(), String.format("PacMan - Distance to PP: %s, Treshhold: %s" , distancePacMantoNextPowerpill(game), Parameters.MIN_DISTANCE_POWERPILL));
-			chaseMode = !game.isGhostEdible(ghost)&&distancePacMantoNextPowerpill(game)>Parameters.MIN_DISTANCE_POWERPILL;
+		if(Parameters.POWERPILL_THRESHOLD) {
+			//LOG.log(new Calculations(), String.format("PacMan - Distance to PP: %s, Treshhold: %s" , distancePacMantoNextPowerpill(game), Parameters.DISTANCE_TRESHHOLD_POWERPILL));
+			chaseMode = !game.isGhostEdible(ghost)&&distancePacMantoNextPowerpill(game)>Parameters.DISTANCE_TRESHHOLD_POWERPILL;
 		}
 
 		//the closer the better

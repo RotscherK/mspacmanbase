@@ -40,9 +40,11 @@ public class Parameters {
 	/** Consider Powerpills on Path Tim & Roger **/
 	public static boolean POWERPILLS_EXPLORER = true;
 	
-	/** Powerpills closeness to Powerpill on Path Tim & Roger **/
-	public static int MIN_DISTANCE_POWERPILL = 20;
-
+	/** Activate Distance Threshold to PowerPill Tim & Roger **/
+	public static boolean POWERPILL_THRESHOLD = false;
+	
+	/** Distance Threshold to Powerpills Tim & Roger **/
+	public static int DISTANCE_TRESHHOLD_POWERPILL = 20;
 	
 	/**  Maximum Number of ExplorerAnts created (maxAnt ^e) */
 	public static int MAX_EXPLORER = 25;
