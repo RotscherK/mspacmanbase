@@ -83,7 +83,7 @@ public class Calculations {
 			double edgeQuality = distanceAntCurrentToNearestGhost/Math.pow(distanceAntStartToAntCurrent, 2);
 			totalPathQuality += edgeQuality;
 			
-			//Tim & Roger
+			// Tim & Roger
 			if(Parameters.POWERPILLS_EXPLORER) {
 				Double distanceAntToNearestPowerpill = e.calculateDistanceAntToNearestPowerpill(game);
 				double powerpillQuality = (1/distanceAntToNearestPowerpill)/Math.pow(distanceAntStartToAntCurrent, 2);
