@@ -65,38 +65,11 @@ public class ExplorerAnt extends Ant {
 		return distanceNodeCurrentToNearestPowerpill;
 	}
 	
-	// NEW: Alternative power pill - Tim
+	// NEW: Alternative power pill - Tim & Roger
 	// returns true if a power pill is on the node
 	public boolean isPowerPillOnNode(Game game) {
 		LOG.trace("ExplorerAnt {} on node {} Powerpillindices  {}.", getAntId(), this.getCurrentNode().getNodeIndex(), Arrays.toString(game.getPowerPillIndices()));
 		return IntStream.of(game.getPowerPillIndices()).anyMatch(x -> x == this.getCurrentNode().getNodeIndex());
-	}
-
-	// NEW: power pill - Tim
-	// returns true if a power pill is on the node
-	public boolean isPowerPillOnNodeV1(Game game) {
-		boolean isPowerPillOnNode = false;
-		for (GHOST ghost : GHOST.values()) {
-			if (game.getGhostLairTime(ghost) <= 0) {
-				// not sure if this works
-				double powerPillIndexOnNode = 0;
-				for (AntNode node : getNodesVisited()) {
-					// check all power pill indices (102, 1143, 1148, 97)
-					for (int indice : game.getPowerPillIndices()) {
-						powerPillIndexOnNode = game.getPowerPillIndex(node.getNodeIndex());
-						System.out.println(
-								"powerPillIndex: " + powerPillIndexOnNode + ", for node: " + node.getNodeIndex());
-
-						if (powerPillIndexOnNode == -1.0) {
-							return isPowerPillOnNode = false;
-						} else {
-							return isPowerPillOnNode = true;
-						}
-					}
-				}
-			}
-		}
-		return isPowerPillOnNode;
 	}
 	
 	@Override
@@ -108,7 +81,6 @@ public class ExplorerAnt extends Ant {
 			return true;
 		}
 
-		// I THINK WE NEED TO ADD IT HERE: power pill on the way
 		boolean isPowerPillOnNode = false;
 
 		// check if ghost can be faster at this point
@@ -117,7 +89,7 @@ public class ExplorerAnt extends Ant {
 			isPowerPillOnNode = isPowerPillOnNode(game);
 			LOG.trace("ExplorerAnt {} stopped on node {} because a ghost can reach this point earlier.", getAntId(), getCurrentNode().getNodeIndex());
 
-			// Power pill - Tim
+			// Power pill - Tim & Roger
 			// According to Recio, an ant will stop if a ghost can reach the node before the
 			// ant
 			// UNLESS there is a power pill on the way
