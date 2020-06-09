@@ -41,7 +41,7 @@ public class Parameters {
 	public static boolean POWERPILLS_EXPLORER = true;
 	
 	/** Activate Distance Threshold to PowerPill Tim & Roger **/
-	public static boolean POWERPILL_THRESHOLD = true;
+	public static boolean POWERPILL_THRESHOLD = false;
 	
 	/** Distance Threshold to Powerpills Tim & Roger **/
 	public static int DISTANCE_THRESHOLD_POWERPILL = 10;

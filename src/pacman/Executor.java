@@ -23,6 +23,7 @@ import pacman.controllers.examples.RandomPacMan;
 import pacman.controllers.examples.StarterGhosts;
 import pacman.controllers.examples.StarterPacMan;
 import pacman.entries.ghosts.fair.FairGhosts;
+import pacman.entries.ghosts.fair.calcutil.Parameters;
 import pacman.entries.pacman.Eiisolver;
 import pacman.game.Game;
 import pacman.game.GameView;
@@ -50,10 +51,23 @@ public class Executor
 	{
 		Executor exec=new Executor();
 
+		boolean withVisuals = true;
 		
+		if(withVisuals) {
+			int delay=5;
+			boolean visual=true;
+			exec.runGame(new StarterPacMan(),new FairGhosts(),visual,delay);
+		}else {
+			int numTrials=50;
+			exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
+		}
+
 		//run multiple games in batch mode - good for testing.
-		int numTrials=25;
-		exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
+		//int numTrials=5;
+		
+		//exec.runExperiment(new StarterPacMan(),new FairGhosts(),numTrials);
+		//exec.runExperiment(new Eiisolver(),new FairGhosts(),numTrials);
+		//exec.runExperiment(new NearestPillPacMan(),new FairGhosts(),numTrials);
 		//exec.runExperiment(new RandomPacMan(),new FairGhosts(),numTrials);
 		//exec.runExperiment(new Eiisolver(),new FairGhosts(),numTrials);
 		
@@ -123,9 +137,14 @@ public class Executor
 		        game.advanceGame(pacManController.getMove(game.copy(),System.currentTimeMillis()+DELAY),
 		        		ghostController.getMove(game.copy(),System.currentTimeMillis()+DELAY));
 			}
-
+			
+			
 			avgScore+=game.getScore();
-			System.out.println(i+"\t"+game.getScore());
+			System.out.println(i+"\t"+Parameters.DISTANCE_THRESHOLD_POWERPILL+"\t"+game.getScore());
+			
+			/*if(i%5==0 && i != 0) {
+				Parameters.DISTANCE_THRESHOLD_POWERPILL -= 5;
+			}*/
 		}
 		
 		System.out.println(avgScore/trials);
